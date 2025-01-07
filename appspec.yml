@@ -2,11 +2,22 @@ version: 0.0
 os: linux
 
 hooks:
-  ApplicationStop:
+  BeforeInstall: # Optional: Clean up old application files or dependencies before new install
+    - location: scripts/before_install.sh
+      timeout: 300
+      runas: root
+
+  ApplicationStop: # Stops old containers and frees up ports
     - location: scripts/stop_container.sh
       timeout: 300
       runas: root
-  AfterInstall:
+
+  AfterInstall: # Pulls and starts new containers
     - location: scripts/start_container.sh
+      timeout: 300
+      runas: root
+
+  ValidateService: # Optional: Ensure that the application is running correctly after deployment
+    - location: scripts/validate_service.sh
       timeout: 300
       runas: root
