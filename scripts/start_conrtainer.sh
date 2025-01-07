@@ -5,4 +5,4 @@ set -e
 docker pull abdulrajak/sample-app:latest
 
 # run the docker image as conatiner
-docker run -d -p 5001:8080 abdulrajak/sample-app:latest
+docker run -d -p 5001:5001 abdulrajak/sample-app:latest
