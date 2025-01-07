@@ -38,3 +38,4 @@ artifacts:
     - sample-python-app/requirement.txt
     - '**/*'
   base-directory: ./sample-python-app
+
