@@ -29,6 +29,7 @@ phases:
       - echo "Build completed successfully!"
 artifacts:
   files:
+    - sample-python-app/requirement.txt     
     - '**/*'
   base-directory: ./sample-python-app 
   
