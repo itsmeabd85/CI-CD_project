@@ -13,8 +13,9 @@ phases:
     commands:
       - echo "Installing dependencies..." 
       - ls -R
-      - pip install -r sample-python-app/requirement.txt
       - pip install --upgrade pip
+      - pip install -r sample-python-app/requirement.txt
+  
   build:
     commands:
       - echo "Running tests..."
