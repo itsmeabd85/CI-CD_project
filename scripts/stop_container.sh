@@ -13,14 +13,14 @@ else
 fi
 
 # Verify port 5000 availability
-if sudo lsof -i :5000; then
-    echo "Port 5000 is still in use. Killing the process using it."
-    pid=$(sudo lsof -ti :5000)
+if sudo lsof -i :5001; then
+    echo "Port 5001 is still in use. Killing the process using it."
+    pid=$(sudo lsof -ti :5001)
     sudo kill -9 "$pid"
 fi
 
 # Start the new container
-docker run -d -p 5000:5000 abdulrajak/sample-app:latest || { echo "Failed to start the container"; exit 1; }
+docker run -d -p 5001:5001 abdulrajak/sample-app:latest || { echo "Failed to start the container"; exit 1; }
 
 echo "Container started successfully!"
 
