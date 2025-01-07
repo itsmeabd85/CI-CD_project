@@ -2,7 +2,7 @@
 set -euxo pipefail
 
 # Check for running containers on port 5000
-container_id=$(docker ps --filter "ancestor=abdulrajak/final-app" --filter "status=running" -q)
+container_id=$(docker ps --filter "ancestor=abdulrajak/sample-app:latest" --filter "status=running" -q)
 
 if [ -n "$container_id" ]; then
     echo "Stopping and removing running container with ID: $container_id"
@@ -20,7 +20,7 @@ if sudo lsof -i :5000; then
 fi
 
 # Start the new container
-docker run -d -p 5000:5000 abdulrajak/final-app:latest || { echo "Failed to start the container"; exit 1; }
+docker run -d -p 5000:5000 abdulrajak/sample-app:latest || { echo "Failed to start the container"; exit 1; }
 
 echo "Container started successfully!"
 
