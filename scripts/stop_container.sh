@@ -1,22 +1,22 @@
 #!/bin/bash
 set -e
 
-# Find and stop running containers for the application
-container_id=$(docker ps --filter "ancestor=abdulrajak/sample-app:latest" --filter "status=running" -q)
-
-if [ -n "$container_id" ]; then
-    echo "Stopping container with ID: $container_id"
-    docker stop "$container_id"
-    docker rm "$container_id"
+# Stop and remove any running containers with the image name
+running_container=$(docker ps -q --filter "ancestor=abdulrajak/sample-app:latest")
+if [ ! -z "$running_container" ]; then
+    echo "Stopping running container..."
+    docker stop "$running_container"
+    docker rm "$running_container"
 else
     echo "No running containers found for this image."
 fi
 
-# Check and free up port 5001 if occupied
-if sudo lsof -i :5001; then
+# Check if port 5001 is in use and kill the process
+if lsof -i:5001 | grep LISTEN; then
     echo "Port 5001 is in use. Killing the process occupying it."
-    pid=$(sudo lsof -ti :5001)
-    sudo kill -9 "$pid"
+    pid=$(lsof -t -i:5001)  # Extract the PID of the process
+    kill -9 "$pid"          # Forcefully kill the process
+    echo "Killed process with PID: $pid"
+else
+    echo "Port 5001 is not in use."
 fi
-
-echo "Stop script executed successfully."
