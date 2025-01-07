@@ -5,15 +5,19 @@ env:
     DOCKER_REGISTRY_USERNAME: /app/docker_credl/username
     DOCKER_REGISTRY_PASSWORD: /app/docker_credl/password
     DOCKER_REGISTRY_URL: /app/docker_credl/url
+
 phases:
   install:
     runtime-versions:
       python: 3.11
+    commands:
+      - echo "Updating pip..."
+      - pip install --upgrade pip  # Updating pip here
+
   pre_build:
     commands:
-      - echo "Installing dependencies..." 
-      - ls -R
-      - pip install --upgrade pip
+      - echo "Installing dependencies..."
+      - ls -R  # Verify the presence of files
       - pip install -r sample-python-app/requirement.txt
   
   build:
@@ -24,12 +28,13 @@ phases:
       - echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin "$DOCKER_REGISTRY_URL"
       - docker build -f Docker-file_CICD -t "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/final-app:latest" .
       - docker push "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/final-app:latest"
+
   post_build:
     commands:
       - echo "Build completed successfully!"
+
 artifacts:
   files:
-    - sample-python-app/requirement.txt     
+    - sample-python-app/requirement.txt
     - '**/*'
-  base-directory: ./sample-python-app 
-  
+  base-directory: ./sample-python-app
