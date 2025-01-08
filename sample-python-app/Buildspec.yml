@@ -35,6 +35,7 @@ phases:
 
 artifacts:
   files:
-    - '**/*'
-  base-directory: ./sample-python-app
+    - appspec.yml
+    - scripts/*  # Include only files in 'scripts/', not subdirectories
+  base-directory: .
 
