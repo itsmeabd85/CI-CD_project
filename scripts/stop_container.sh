@@ -11,11 +11,11 @@ else
     echo "No running containers found for this image."
 fi
 
-# Check if port 5001 is in use and kill the process
-if lsof -i:5001 | grep LISTEN; then
+# Check if port 5001 is in use and free it
+pid=$(lsof -t -i:5001 || true)
+if [ ! -z "$pid" ]; then
     echo "Port 5001 is in use. Killing the process occupying it."
-    pid=$(lsof -t -i:5001)  # Extract the PID of the process
-    kill -9 "$pid"          # Forcefully kill the process
+    kill -9 "$pid"
     echo "Killed process with PID: $pid"
 else
     echo "Port 5001 is not in use."
